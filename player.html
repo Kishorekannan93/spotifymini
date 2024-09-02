@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Now Playing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="player-container">
+        <h1 id="song-title"></h1>
+        <h2 id="song-artist"></h2>
+        <img id="song-cover" src="" alt="Cover Image">
+        <audio id="audio-player" controls></audio>
+        <p>Duration: <span id="duration">0:00</span></p>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const song = urlParams.get('song');
+        const title = urlParams.get('title');
+        const artist = urlParams.get('artist');
+        const cover = urlParams.get('cover');
+
+        document.getElementById('song-title').textContent = title;
+        document.getElementById('song-artist').textContent = artist;
+        document.getElementById('song-cover').src = cover;
+
+        const audio = document.getElementById('audio-player');
+        audio.src = song;
+
+        audio.addEventListener('loadedmetadata', () => {
+            const duration = audio.duration;
+            const minutes = Math.floor(duration / 60);
+            const seconds = Math.floor(duration % 60).toString().padStart(2, '0');
+            document.getElementById('duration').textContent = `${minutes}:${seconds}`;
+        });
+    </script>
+</body>
+</html>
